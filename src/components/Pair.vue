@@ -3,41 +3,51 @@
     <div class="title">
       <h1>{{msg}}</h1>
     </div>
-    <div class="container">
-    <select v-model="selected" class="pairContainer">
-      <option v-for="pair in pairs" class="pair">
-        {{ pair.symbol }}
-        <hr>
-      </option>
-    </select>
+    <div class="container resultContainer">
+      <ul >
+        <li v-for="pair in pairs">
+          <button @click="returnPair(pair.symbol)" class="resultBtn">
+          {{ pair.symbol }}
+          <hr>
+          </button>
+          
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-  const ccxt = require('ccxt')
-  const exchanges = ccxt.exchanges;
-
-  async function getMarkets() {
-    let acx = new ccxt.acx()
-    let markets = await acx.load_markets()
-    return markets
-
-  };
-  let pairs = getMarkets()
-
   export default {
     name: 'pair',
     data() {
       return {
-        pairs,
+        pairs: [],
         msg: 'Pair',
-        selected: ''
-
+        selected: '',
       }
     },
-    mounted() {
-      getMarkets().then(markets => this.pairs = markets)
+    props: {
+      selectedExchange: {}
+    },
+    computed: {
+      getMarkets() {
+        (async () => {
+          const ccxt = require('ccxt')
+          const exchanges = ccxt.exchanges;
+          let marketPair = new ccxt[this.selectedExchange]()
+          let markets = await marketPair.load_markets()
+          marketPair.load_markets().then(markets => this.pairs = markets)
+          return markets
+        })();
+      }
+    },
+    methods: {
+      returnPair(pair) {
+        this.selectedPair = pair
+        this.$emit('returnPair', this.selectedPair)
+        console.log(this.selectedPair)
+      },
     }
   }
 
@@ -45,6 +55,7 @@
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 select,
 option {
   font-family: "Montserrat", sans-serif;
@@ -58,9 +69,11 @@ hr {
   width: 75%;
   background: #e8edf4;
 }
+
 .container {
   text-align: center;
 }
+
 .pairContainer {
   background-color: #52489c;
   margin: auto;
@@ -79,5 +92,12 @@ hr {
   font-size: 1rem;
   text-align: center;
 }
+.resultBtn {
+  background-color: #59c3c3;
+  border: none;
+  width: 100%;
+  padding: 10px 0px 10px 0px;
+  text-transform: capitalize;
+  font-size: 1.25rem;
+}
 </style>
-

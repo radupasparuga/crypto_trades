@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <div id="exchange">
-      <exchange></exchange>
+      <exchange v-on:returnExchange="updateExchange($event)"></exchange>
     </div>
     <div id="pair">
-      <pair></pair>
+      <pair v-on:returnPair="updatePair($event)" :selectedExchange="this.selectedExchange" ></pair>
     </div>
     <div id="trades">
-      <trades></trades>
+      <trades :selectedPair="this.selectedPair"></trades>
     </div>
   </div>
 </template>
@@ -21,37 +21,51 @@ const ccxt = require ('ccxt');
 export default {
   name: 'App',
   components: { exchange, pair, trades },
+  data(){
+    return{
+     selectedExchange: 'acx',
+     selectedPair: 'BTC/AUD'
+    }
+  },
+  methods: {
+    updateExchange(updatedExchange){
+      this.selectedExchange = updatedExchange
+    },
+    updatePair(updatedPair){
+      this.selectedPair = updatedPair
+    }
+  },
 };
+
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-body{
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-#app{
+#app {
   display: grid;
   grid-template-columns: 33vw 33vw 34vw;
   grid-template-rows: repeat(1, 100vh);
-  
 }
 
-#exchange{
-  background-color: #52489C;
+#exchange {
+  background-color: #52489c;
 }
 
-#pair{
-  background-color: #4062BB;
+#pair {
+  background-color: #4062bb;
 }
 
-#trades{
-  background-color: #59C3C3;
+#trades {
+  background-color: #59c3c3;
 }
 
-h1{
-    text-align: center;
-    color: #e8edf4;
+h1 {
+  text-align: center;
+  color: #e8edf4;
 }
 </style>

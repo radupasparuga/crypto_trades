@@ -10,7 +10,7 @@
       </div>
       <div class="resultContainer">
         <ul>
-          <li v-for="exchange in finalExchanges"><button class="resultBtn"> {{exchange}} <hr></button></li>
+          <li v-for="exchange in finalExchanges"><button class="resultBtn"  @click="returnExchange(exchange)"> {{exchange}} <hr></button></li>
         </ul>
       </div>
     </div>
@@ -18,11 +18,14 @@
 <script>
   const ccxt = require ('ccxt')
   const exchanges = ccxt.exchanges; 
+  let selectedExchange;
+
   export default {
     name: 'exchange',
     data () {
       return {
         exchanges,
+        selectedExchange,
         msg: 'Exchange',
         search: ''
       }
@@ -33,7 +36,13 @@
         return exchange.includes(this.search)
       })
     }
-  }
+   },
+   methods: {
+     returnExchange(exchange){
+       this.selectedExchange = exchange
+       this.$emit('returnExchange', this.selectedExchange)
+     },
+   }
   }
   
 </script>
