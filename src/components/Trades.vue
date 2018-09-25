@@ -43,6 +43,9 @@
           return sign
       }
     },
+    mounted(){
+      this.getTrades;
+    }
 
   }
 

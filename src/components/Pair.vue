@@ -48,6 +48,9 @@
         this.$emit('returnPair', this.selectedPair)
         console.log(this.selectedPair)
       },
+    },
+    mounted() {
+      this.getMarkets()
     }
   }
 
