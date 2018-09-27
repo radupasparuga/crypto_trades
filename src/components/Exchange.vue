@@ -42,7 +42,7 @@
        this.selectedExchange = exchange
        this.$emit('returnExchange', this.selectedExchange)
      },
-   }
+   },
   }
   
 </script>

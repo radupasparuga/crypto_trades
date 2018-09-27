@@ -35,6 +35,9 @@ export default {
       this.selectedPair = updatedPair
     }
   },
+  mounted(){
+    
+  }
 };
 
 </script>

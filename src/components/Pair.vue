@@ -35,7 +35,8 @@
         (async () => {
           const ccxt = require('ccxt')
           const exchanges = ccxt.exchanges;
-          let marketPair = new ccxt[this.selectedExchange]()
+          const proxy = 'https://cors-anywhere.herokuapp.com/'
+          let marketPair = new ccxt[this.selectedExchange]({ 'proxy': proxy })
           let markets = await marketPair.load_markets()
           marketPair.load_markets().then(markets => this.pairs = markets)
           return markets
