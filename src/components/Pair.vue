@@ -1,107 +1,49 @@
 <template>
-  <div>
-    <div class="title">
-      <h1>{{msg}}</h1>
-    </div>
-    <div class="container resultContainer">
-      <ul >
-        <li v-for="pair in pairs">
-          <button @click="returnPair(pair.symbol)" class="resultBtn">
-          {{ pair.symbol }}
-          <hr>
-          </button>
-          
-        </li>
-      </ul>
-    </div>
+  <div class="pairs-component">
+    <h1>Pair</h1>
+    <select :value="pair.symbol" v-on:change="getPair">
+      <option disabled value="">Please select a pair</option>
+      <option v-for="pair in pairs" v-bind:value="pair.symbol" :key="pair.id"> {{ pair.symbol }}</option>
+    </select>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'pair',
-    data() {
-      return {
-        pairs: [],
-        msg: 'Pair',
-        selected: '',
-      }
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'Pairs',
+  computed: {
+    pairs () {
+      return this.$store.state.pairs
     },
-    props: {
-      selectedExchange: {}
-    },
-    computed: {
-      getMarkets() {
-        (async () => {
-          const ccxt = require('ccxt')
-          const exchanges = ccxt.exchanges;
-          const proxy = 'https://cors-anywhere.herokuapp.com/'
-          let marketPair = new ccxt[this.selectedExchange]({ 'proxy': proxy })
-          let markets = await marketPair.load_markets()
-          marketPair.load_markets().then(markets => this.pairs = markets)
-          return markets
-        })();
-      }
-    },
-    methods: {
-      returnPair(pair) {
-        this.selectedPair = pair
-        this.$emit('returnPair', this.selectedPair)
-        console.log(this.selectedPair)
-      },
-    },
-    mounted() {
-      this.getMarkets()
+    pair () {
+      return this.$store.state.pair
+    }
+  },
+  methods: {
+    ...mapActions(['receivePair', 'getTrades']),
+    getPair (e) {
+      let pair = e.target.value
+      this.receivePair(pair)
+      this.getTrades()
     }
   }
-
+}
 </script>
-
-<style>
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
-
-select,
-option {
-  font-family: "Montserrat", sans-serif;
+<style scoped>
+.pairs-component {
+  background-color: #4062bb;
+}
+h1 {
+  margin-top: 100px;
+  font-size: 40px;
   color: #e8edf4;
-  font-size: 1rem;
 }
-
-hr {
-  border: 0;
-  height: 1px;
-  width: 75%;
-  background: #e8edf4;
-}
-
-.container {
-  text-align: center;
-}
-
-.pairContainer {
+select {
+  font-size: 18px;
+  padding: 5px;
+  color: #e8edf4;
   background-color: #52489c;
-  margin: auto;
-  width: 60%;
-  padding: 10px 2% 10px 2%;
-  border: none;
-  border-radius: 5px 5px 0 0;
-}
-
-.pair {
-  background-color: #59c3c3;
-  border: none;
-  width: 100%;
-  padding: 10px 0px 10px 0px;
-  text-transform: capitalize;
-  font-size: 1rem;
-  text-align: center;
-}
-.resultBtn {
-  background-color: #59c3c3;
-  border: none;
-  width: 100%;
-  padding: 10px 0px 10px 0px;
-  text-transform: capitalize;
-  font-size: 1.25rem;
 }
 </style>

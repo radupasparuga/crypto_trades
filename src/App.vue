@@ -1,74 +1,48 @@
 <template>
   <div id="app">
-    <div id="exchange">
-      <exchange v-on:returnExchange="updateExchange($event)"></exchange>
-    </div>
-    <div id="pair">
-      <pair v-on:returnPair="updatePair($event)" :selectedExchange="this.selectedExchange" ></pair>
-    </div>
-    <div id="trades">
-      <trades :selectedPair="this.selectedPair"></trades>
-    </div>
+      <Exchange />
+      <Pair />
+      <Trades />
   </div>
 </template>
 
 <script>
-import exchange from '@/components/Exchange';
-import pair from '@/components/Pair';
-import trades from '@/components/Trades';
-const ccxt = require ('ccxt');
-
-export default {
-  name: 'App',
-  components: { exchange, pair, trades },
-  data(){
-    return{
-     selectedExchange: 'acx',
-     selectedPair: 'BTC/AUD'
+  import goldenLayout from 'vue-golden-layout'
+  import glCol from 'vue-golden-layout'
+  import Exchange from './components/Exchange'
+  import Pair from './components/Pair'
+  import Trades from './components/Trades'
+  import store from './store/store'
+  export default {
+    name: 'App',
+    store,
+    components: {
+      Exchange,
+      Pair,
+      Trades,
+      goldenLayout,
+      glCol,
     }
-  },
-  methods: {
-    updateExchange(updatedExchange){
-      this.selectedExchange = updatedExchange
-    },
-    updatePair(updatedPair){
-      this.selectedPair = updatedPair
-    }
-  },
-  mounted(){
-    
   }
-};
 
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
-body {
-  margin: 0;
-  font-family: "Montserrat", sans-serif;
-}
+  @import 'golden-layout/src/css/goldenlayout-light-theme.css';
 
-#app {
-  display: grid;
-  grid-template-columns: 33vw 33vw 34vw;
-  grid-template-rows: repeat(1, 100vh);
-}
+  html,
+  body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+  }
 
-#exchange {
-  background-color: #52489c;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    text-align: center;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    min-height: 100%;
+  }
 
-#pair {
-  background-color: #4062bb;
-}
-
-#trades {
-  background-color: #59c3c3;
-}
-
-h1 {
-  text-align: center;
-  color: #e8edf4;
-}
 </style>

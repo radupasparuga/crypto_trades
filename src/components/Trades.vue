@@ -1,75 +1,56 @@
 <template>
-  <div>
-    <div class="title">
-      <h1>{{msg}}</h1>
-    </div>
+  <div class="trades-component">
+    <h1>Trades</h1>
     <table>
-      <th>
-        <tr class="firstRow size">Size </tr>
-        <tr v-for="trade in trades">{{ trade.amount}}</tr>
-      </th>
-      <th>
-        <tr class="firstRow price">Price </tr>
-        <tr v-for="trade in trades">{{ trade.price }}</tr>
-      </th>
-      <th>
-        <tr class="firstRow time">Time</tr>
-        <tr v-for="trade in trades">{{ trade.datetime.slice(12, 19) }}</tr>
-      </th>
+      <tr>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Time</th>
+      </tr>
+      <tr v-for="trade in trades" :key="trade.id">
+        <td class="amount">{{ trade.amount }}</td>
+        <td class="price">{{ trade.price }}</td>
+        <td class="datetime">{{ trade.datetime.slice(12, 19) }}</td>
+      </tr>
     </table>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'trades',
-    data() {
-      return {
-        trades: [],
-        msg: 'Trades'
-      }
-    },
-    props: {
-      selectedPair: ''
-    },
-    computed: {
-      getTrades() {
-          const ccxt = require('ccxt')
-          const exchange = new ccxt.acx()
-          const limit = 20
-          const since = undefined
-          let sign =  exchange.fetchTrades(this.selectedPair, since, limit)
-          exchange.fetchTrades(this.selectedPair, since, limit).then(sign => this.trades = sign)
-          return sign
-      }
-    },
-    mounted(){
-      this.getTrades;
+export default {
+  name: 'Trades',
+  computed: {
+    trades () {
+      return this.$store.state.trades
     }
-
   }
-
+}
 </script>
-
-<style>
+<style scoped>
+.trades-component {
+  background-color: #59c3c3;
+}
+h1 {
+  font-size: 40px;
+  margin-top: 100px;
+  color: #e8edf4;
+}
 table {
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
-  padding: 0px 40px 0px 40px;
+  padding: 10px;
 }
-
-.firstRow {
-  border-bottom: 3px solid #000;
+.amount {
+  color: #e8edf4;
+  font-size: 18px;
 }
-
-.size {
-  text-align: left;
-}
-
 .price {
-  text-align: center;
+  color: white;
+  font-size: 18px;
 }
-
-.time {
-  text-align: right;
+.datetime {
+  color: #e8edf4;
+  font-size: 18px;
 }
 </style>
