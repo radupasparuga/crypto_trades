@@ -32,9 +32,6 @@ export default {
 }
 </script>
 <style scoped>
-.pairs-component {
-  background-color: #4062bb;
-}
 h1 {
   margin-top: 100px;
   font-size: 40px;
@@ -44,6 +41,5 @@ select {
   font-size: 18px;
   padding: 5px;
   color: #e8edf4;
-  background-color: #52489c;
 }
 </style>

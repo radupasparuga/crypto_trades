@@ -1,35 +1,40 @@
 <template>
   <div id="app">
-      <Exchange />
-      <Pair />
-      <Trades />
+    <golden-layout>
+      <gl-component>
+        <Exchange />
+      </gl-component>
+    </golden-layout>
+    <golden-layout>
+      <gl-component>
+        <Pair />
+      </gl-component>
+    </golden-layout>
+    <golden-layout>
+      <gl-component>
+        <Trades />
+      </gl-component>
+    </golden-layout>
   </div>
 </template>
 
 <script>
-  import goldenLayout from 'vue-golden-layout'
-  import glCol from 'vue-golden-layout'
+  import 'golden-layout/src/css/goldenlayout-dark-theme.css'
   import Exchange from './components/Exchange'
   import Pair from './components/Pair'
   import Trades from './components/Trades'
-  import store from './store/store'
   export default {
     name: 'App',
-    store,
     components: {
       Exchange,
       Pair,
-      Trades,
-      goldenLayout,
-      glCol,
+      Trades
     }
   }
 
 </script>
 
 <style>
-  @import 'golden-layout/src/css/goldenlayout-light-theme.css';
-
   html,
   body {
     margin: 0px;
@@ -40,9 +45,9 @@
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     text-align: center;
+    min-height: 100%;
     display: grid;
     grid-template-columns: auto auto auto;
-    min-height: 100%;
   }
 
 </style>

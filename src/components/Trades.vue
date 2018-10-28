@@ -27,9 +27,6 @@ export default {
 }
 </script>
 <style scoped>
-.trades-component {
-  background-color: #59c3c3;
-}
 h1 {
   font-size: 40px;
   margin-top: 100px;

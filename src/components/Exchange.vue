@@ -1,8 +1,7 @@
-<template>
+<template slot="exchange">
   <div class="exchange-component">
     <h1>Exchange</h1>
     <select :value="exchange" v-on:change="getExchange">
-      <option disabled value="">Please select an exchange</option>
       <option v-for="exchange in exchanges" v-bind:value="exchange" :key="exchange.id">{{ exchange }}</option>
     </select>
   </div>
@@ -32,11 +31,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.exchange-component {
-  background-color: #52489c;
-  height: 100%;
-}
+<style>
+
 h1 {
   margin-top: 100px;
   font-size: 40px;
@@ -46,6 +42,6 @@ select {
   font-size: 18px;
   padding: 5px;
   color:#e8edf4;
-  background-color: #4062bb;
+  background-color: #6d747f;
 }
 </style>
